@@ -34,7 +34,7 @@ const port = 3000;
 const baseUrl = 'http://localhost:'+port;
 
 //Connect to database
-const sequelize = new Sequelize('bookstore', 'root', '', {
+const sequelize = new Sequelize('comicstore', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {
@@ -45,7 +45,7 @@ const sequelize = new Sequelize('bookstore', 'root', '', {
 });
 
 //Define models
-const book = sequelize.define('book', {
+const comic = sequelize.define('comic', {
     'id': {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -58,7 +58,7 @@ const book = sequelize.define('book', {
     'description': Sequelize.TEXT,
     'image': {
         type: Sequelize.STRING,
-        //Set custom getter for book image using URL
+        //Set custom getter for comic image using URL
         get(){
             const image = this.getDataValue('image');
             return uploadDir+image;
@@ -82,22 +82,22 @@ const book = sequelize.define('book', {
  * Set Routes for CRUD
  */
 
-//get all books
-app.get('/book/', (req, res) => {
-    book.findAll().then(book => {
-        res.json(book)
+//get all comics
+app.get('/comic/', (req, res) => {
+    comic.findAll().then(comic => {
+        res.json(comic)
     })
 })
 
-//get book by isbn
-app.get('/book/:isbn', (req, res) => {
-    book.findOne({where: {isbn: req.params.isbn}}).then(book => {
-        res.json(book)
+//get comic by isbn
+app.get('/comic/:isbn', (req, res) => {
+    comic.findOne({where: {isbn: req.params.isbn}}).then(comic => {
+        res.json(comic)
     })
 })
 
 //Insert operation
-app.post('/book/', [
+app.post('/comic/', [
     //File upload (karena pakai multer, tempatkan di posisi pertama agar membaca multipar form-data)
     upload.single('image'),
 
@@ -106,7 +106,7 @@ app.post('/book/', [
         .isLength({ min: 5 })
         .isNumeric()
         .custom(value => {
-            return book.findOne({where: {isbn: value}}).then(b => {
+            return comic.findOne({where: {isbn: value}}).then(b => {
                 if(b){
                     throw new Error('ISBN already in use');
                 }            
@@ -129,24 +129,24 @@ app.post('/book/', [
         return res.status(422).json({ errors: errors.mapped() });
     }
 
-    book.create({
+    comic.create({
         name: req.body.name,
         isbn: req.body.isbn,
         year: req.body.year,
         author: req.body.author,
         description: req.body.description,
         image: req.file === undefined ? "" : req.file.filename
-    }).then(newBook => {
+    }).then(newcomic => {
         res.json({
             "status":"success",
-            "message":"Book added",
-            "data": newBook
+            "message":"comic added",
+            "data": newcomic
         })
     })
 })
 
 //Update operation
-app.put('/book/', [
+app.put('/comic/', [
     //File upload (karena pakai multer, tempatkan di posisi pertama agar membaca multipar form-data)
     upload.single('image'),
 
@@ -155,7 +155,7 @@ app.put('/book/', [
         .isLength({ min: 5 })
         .isNumeric()
         .custom(value => {
-            return book.findOne({where: {isbn: value}}).then(b => {
+            return comic.findOne({where: {isbn: value}}).then(b => {
                 if(!b){
                     throw new Error('ISBN not found');
                 }            
@@ -185,26 +185,26 @@ app.put('/book/', [
         description: req.body.description,
         image: req.file === undefined ? "" : req.file.filename
     }
-    book.update(update,{where: {isbn: req.body.isbn}})
+    comic.update(update,{where: {isbn: req.body.isbn}})
         .then(affectedRow => {
-            return book.findOne({where: {isbn: req.body.isbn}})      
+            return comic.findOne({where: {isbn: req.body.isbn}})      
         })
         .then(b => {
             res.json({
                 "status": "success",
-                "message": "Book updated",
+                "message": "comic updated",
                 "data": b
             })
         })
 })
 
-app.delete('/book/:isbn',[
+app.delete('/comic/:isbn',[
     //Set form validation rule
     check('isbn')
         .isLength({ min: 5 })
         .isNumeric()
         .custom(value => {
-            return book.findOne({where: {isbn: value}}).then(b => {
+            return comic.findOne({where: {isbn: value}}).then(b => {
                 if(!b){
                     throw new Error('ISBN not found');
                 }            
@@ -212,12 +212,12 @@ app.delete('/book/:isbn',[
         }
     ),
 ], (req, res) => {
-    book.destroy({where: {isbn: req.params.isbn}})
+    comic.destroy({where: {isbn: req.params.isbn}})
         .then(affectedRow => {
             if(affectedRow){
                 return {
                     "status":"success",
-                    "message": "Book deleted",
+                    "message": "comic deleted",
                     "data": null
                 } 
             }
@@ -235,4 +235,4 @@ app.delete('/book/:isbn',[
 })
 
 
-app.listen(port, () => console.log("book-rest-api run on "+baseUrl ))
+app.listen(port, () => console.log("comic-rest-api run on "+baseUrl ))
