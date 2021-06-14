@@ -19,10 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bookstore`
+-- Database: `comicstore`
 --
-CREATE DATABASE IF NOT EXISTS `bookstore` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `bookstore`;
+CREATE DATABASE IF NOT EXISTS `comicstore` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `comicstore`;
 
 -- --------------------------------------------------------
 
@@ -41,11 +41,11 @@ CREATE TABLE `author` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book`
+-- Table structure for table `comic`
 --
 
-DROP TABLE IF EXISTS `book`;
-CREATE TABLE `book` (
+DROP TABLE IF EXISTS `comic`;
+CREATE TABLE `comic` (
   `id` int(11) NOT NULL,
   `isbn` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -58,15 +58,15 @@ CREATE TABLE `book` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `book`
+-- Dumping data for table `comic`
 --
 
-INSERT INTO `book` (`id`, `isbn`, `name`, `year`, `author`, `description`, `image`, `createdAt`, `updatedAt`) VALUES
+INSERT INTO `comic` (`id`, `isbn`, `name`, `year`, `author`, `description`, `image`, `createdAt`, `updatedAt`) VALUES
 (1, '9781785883262', 'Android Programming for Beginners', '2015', 'John Horton', 'Learn Android application development with this accessible tutorial that takes you through Android and Java programming with practical and actionable steps.', '9781785883262.png', '2018-04-22 13:57:30', '0000-00-00 00:00:00'),
 (2, '9781787121799', 'Practical Game Design', '2018', 'Adam Kramarzewski, Ennio De Nucci', 'Design accessible and creative games across genres, platforms, and development realities', 'B06082.png', '0000-00-00 00:00:00', '2018-04-22 13:57:30'),
 (3, '9781788293631', 'Learn Node.js by Building 6 Projects', '2018', 'Eduonix Learning Solutions', 'This is an advanced, practical guide to harnessing the power of Node.js by creating 6 full-scale real-world projects, from creating a chat application to an eLearning system.', 'B07858_cover.png', '2018-04-22 13:57:14', '2018-04-22 13:57:14'),
 (17, '9781785283109', 'Multiplayer Game Development with HTML5', '2015', 'Rodrigo Silveira', 'Build fully-featured, highly interactive multiplayer games with HTML5', '3109OS_Multiplayer Game Development with HTML5.jpg', '2018-04-23 18:46:36', '2018-04-23 18:46:36'),
-(18, '9781788299954', 'Integrating Twitter and Facebook into Your iOS Apps', '2018', 'Nick Walter', 'Learn how to integrate Twitter and Facebook APIs into iOS apps', 'V07323_low.png', '2018-04-23 18:47:04', '2018-04-23 18:47:04');
+(18, '9781788299954', 'Integrating Twitter and Facebook into Your iOS Apps', '2018', 'Nick Walter', 'Learn how to integrate Twitter and Facecomic APIs into iOS apps', 'V07323_low.png', '2018-04-23 18:47:04', '2018-04-23 18:47:04');
 
 --
 -- Indexes for dumped tables
@@ -79,9 +79,9 @@ ALTER TABLE `author`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `book`
+-- Indexes for table `comic`
 --
-ALTER TABLE `book`
+ALTER TABLE `comic`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -95,9 +95,9 @@ ALTER TABLE `author`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `book`
+-- AUTO_INCREMENT for table `comic`
 --
-ALTER TABLE `book`
+ALTER TABLE `comic`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
